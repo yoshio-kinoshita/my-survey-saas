@@ -3,7 +3,7 @@ services:
     build:
       context: frontend
       target: development
-    image: frontend:lastest
+    image: frontend:latest
     ports:
       - 3000:3000
     stdin_open: true
@@ -21,7 +21,7 @@ services:
     build:
       context: backend
       target: development
-    image: backend:lastest
+    image: backend:latest
     volumes:
       - ./backend:/usr/src/app
       - /usr/src/app/node_modules
