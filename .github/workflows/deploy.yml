@@ -25,17 +25,32 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/frontend/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
 
-    - name: Install dependencies
+    - name: Install frontend dependencies
+      working-directory: ./frontend
       run: npm ci
 
-    - name: List scripts
-      run: npm run
+    - name: Build frontend
+      working-directory: ./frontend
+      run: npm run build
 
-    - name: Build project
+    - name: Cache Node.js modules for backend
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/backend/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install backend dependencies
+      working-directory: ./backend
+      run: npm ci
+
+    - name: Build backend
+      working-directory: ./backend
       run: npm run build
 
     - name: Deploy to Heroku
