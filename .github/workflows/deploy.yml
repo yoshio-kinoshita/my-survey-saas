@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:  # 手動トリガーを追加
 
 jobs:
   deploy:
@@ -73,12 +74,10 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: echo $HEROKU_API_KEY | heroku auth:token
 
-
     - name: Deploy to Heroku
-      if: success()
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       run: |
-        git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+        heroku git:remote -a $HEROKU_APP_NAME
         git push heroku main
