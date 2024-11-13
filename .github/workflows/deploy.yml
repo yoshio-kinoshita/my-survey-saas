@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main
+      - main  # mainブランチへのプッシュでデプロイが実行
   workflow_dispatch:  # 手動トリガーを追加
 
 jobs:
@@ -11,30 +11,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-    - name: Log in to Heroku Container Registry
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: echo $HEROKU_API_KEY | docker login --username=_ --password-stdin registry.heroku.com
+      - name: Log in to Heroku Container Registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com
 
-    - name: Build and push Docker images
-      env:
-        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-      run: |
-        docker compose build
-        docker tag frontend registry.heroku.com/$HEROKU_APP_NAME/frontend
-        docker tag backend registry.heroku.com/$HEROKU_APP_NAME/backend
-        docker push registry.heroku.com/$HEROKU_APP_NAME/frontend
-        docker push registry.heroku.com/$HEROKU_APP_NAME/backend
+      - name: Build and push Docker images with docker-compose
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          # docker-composeでビルド
+          docker-compose -f compose.yml build
 
-    - name: Release on Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-      run: |
-        heroku container:release web --app $HEROKU_APP_NAME
+          # frontendサービスをHerokuにプッシュ
+          docker tag frontend registry.heroku.com/$HEROKU_APP_NAME-frontend/web
+          docker push registry.heroku.com/$HEROKU_APP_NAME-frontend/web
+
+          # backendサービスをHerokuにプッシュ
+          docker tag backend registry.heroku.com/$HEROKU_APP_NAME-backend/web
+          docker push registry.heroku.com/$HEROKU_APP_NAME-backend/web
+
+      - name: Release on Heroku
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          heroku container:release web --app $HEROKU_APP_NAME-frontend
+          heroku container:release web --app $HEROKU_APP_NAME-backend
