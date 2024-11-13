@@ -12,6 +12,7 @@
   "author": "Syed Afzal",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.4",
@@ -20,6 +21,7 @@
     "lodash": "^4.17.13",
     "mongodb": "^3.0.7",
     "mongoose": "^6.0.9",
+    "morgan": "^1.10.0",
     "simple-node-logger": "^18.12.23",
     "validator": "^13.7.0"
   },
