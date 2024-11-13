@@ -21,7 +21,7 @@ jobs:
     - name: Check Node.js version
       run: node -v
 
-    - name: Cache Node.js modules
+    - name: Cache Node.js modules for frontend
       uses: actions/cache@v2
       with:
         path: ~/.npm
@@ -32,6 +32,18 @@ jobs:
     - name: Install frontend dependencies
       working-directory: ./frontend
       run: npm ci
+
+    - name: Show frontend package.json
+      working-directory: ./frontend
+      run: cat package.json
+
+    - name: List frontend scripts
+      working-directory: ./frontend
+      run: npm run
+
+    - name: Build frontend
+      working-directory: ./frontend
+      run: npm run build
 
     - name: Cache Node.js modules for backend
       uses: actions/cache@v2
@@ -45,9 +57,13 @@ jobs:
       working-directory: ./backend
       run: npm ci
 
-    - name: Build backend
+    - name: Show backend package.json
       working-directory: ./backend
-      run: npm run build
+      run: cat package.json
+
+    - name: List backend scripts
+      working-directory: ./backend
+      run: npm run
 
     - name: Deploy to Heroku
       if: success()
