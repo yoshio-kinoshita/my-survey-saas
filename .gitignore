@@ -31,6 +31,7 @@ tmp/            # 一時ファイル用フォルダ
 coverage/       # テストカバレッジレポート
 
 # パッケージマネージャの一時ファイル
+node_modules/
 frontend/node_modules/   # npm や yarn の依存関係
 backend/node_modules/    # npm や yarn の依存関係
 *.rbc           # npm のキャッシュファイル
