@@ -40,19 +40,19 @@ jobs:
           # イメージがビルドされているか確認
           docker images
 
-      - name: Tag and push frontend image
+      - name: Tag and push frontend:latest image
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          docker tag frontend:latest registry.heroku.com/$HEROKU_APP_NAME-frontend/web
-          docker push registry.heroku.com/$HEROKU_APP_NAME-frontend/web
+          docker tag frontend:latest registry.heroku.com/$HEROKU_APP_NAME/web
+          docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
       - name: Tag and push backend image
         env:
          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          docker tag backend:latest registry.heroku.com/$HEROKU_APP_NAME-backend/web
-          docker push registry.heroku.com/$HEROKU_APP_NAME-backend/web
+          docker tag backend:latest registry.heroku.com/$HEROKU_APP_NAME/web
+          docker push registry.heroku.com/$HEROKU_APP_NAME/web
 
       - name: Release on Heroku
         env:
