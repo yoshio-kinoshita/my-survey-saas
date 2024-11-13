@@ -33,7 +33,7 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
           # docker-composeでビルド
-          docker-compose -f compose.yml build
+          docker-compose -f compose.yaml build
 
           # frontendサービスをHerokuにプッシュ
           docker tag frontend registry.heroku.com/$HEROKU_APP_NAME-frontend/web
