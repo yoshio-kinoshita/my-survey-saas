@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Express Server",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/backend/server.js", // Expressのエントリーファイルを指定
+        "cwd": "${workspaceFolder}/backend",
+        "outFiles": ["${workspaceFolder}/server/**/*.js"],
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "sourceMaps": true,
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen"
+      },
+      {
+        "name": "Debug React App",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000", // Reactのデフォルトポート
+        "webRoot": "${workspaceFolder}/frontend/src"
+      },
+      {
+        "name": "Attach to Node Process",
+        "type": "node",
+        "request": "attach",
+        "processId": "${command:PickProcess}",
+        "restart": true,
+        "protocol": "inspector",
+        "sourceMaps": true,
+        "skipFiles": ["<node_internals>/**"]
+      }
+    ],
+    "compounds": [
+      {
+        "name": "Debug Full Stack",
+        "configurations": ["Debug Express Server", "Debug React App"]
+      }
+    ]
+  }
