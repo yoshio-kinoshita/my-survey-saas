@@ -35,11 +35,22 @@ jobs:
           # docker-composeでビルド
           docker-compose -f compose.yaml build
 
-          # frontendサービスをHerokuにプッシュ
+      - name: List built Docker images
+        run: |
+          # イメージがビルドされているか確認
+          docker images
+
+      - name: Tag and push frontend image
+        env:
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
           docker tag frontend:latest registry.heroku.com/$HEROKU_APP_NAME-frontend/web
           docker push registry.heroku.com/$HEROKU_APP_NAME-frontend/web
 
-          # backendサービスをHerokuにプッシュ
+      - name: Tag and push backend image
+        env:
+         HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
           docker tag backend:latest registry.heroku.com/$HEROKU_APP_NAME-backend/web
           docker push registry.heroku.com/$HEROKU_APP_NAME-backend/web
 
