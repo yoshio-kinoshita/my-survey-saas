@@ -36,11 +36,11 @@ jobs:
           docker-compose -f compose.yaml build
 
           # frontendサービスをHerokuにプッシュ
-          docker tag frontend registry.heroku.com/$HEROKU_APP_NAME-frontend/web
+          docker tag frontend:latest registry.heroku.com/$HEROKU_APP_NAME-frontend/web
           docker push registry.heroku.com/$HEROKU_APP_NAME-frontend/web
 
           # backendサービスをHerokuにプッシュ
-          docker tag backend registry.heroku.com/$HEROKU_APP_NAME-backend/web
+          docker tag backend:latest registry.heroku.com/$HEROKU_APP_NAME-backend/web
           docker push registry.heroku.com/$HEROKU_APP_NAME-backend/web
 
       - name: Release on Heroku
