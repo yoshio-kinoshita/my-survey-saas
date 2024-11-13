@@ -33,10 +33,6 @@ jobs:
       working-directory: ./frontend
       run: npm ci
 
-    - name: Build frontend
-      working-directory: ./frontend
-      run: npm run build
-
     - name: Cache Node.js modules for backend
       uses: actions/cache@v2
       with:
