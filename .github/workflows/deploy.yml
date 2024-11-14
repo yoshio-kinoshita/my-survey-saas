@@ -28,12 +28,6 @@ jobs:
         run: |
           echo "$HEROKU_API_KEY" | docker login --username=_ --password-stdin registry.heroku.com || exit 1
 
-      - name: Install dependencies
-        run: npm install
-  
-      - name: Build React app
-        run: npm run build
-
       - name: Build and push Docker images with compose
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
