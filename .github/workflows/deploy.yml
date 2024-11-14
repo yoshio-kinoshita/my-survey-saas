@@ -33,7 +33,7 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
           # docker-composeでビルド
-          docker-compose -f compose.yaml build
+          docker-compose -f docker-compose.yml build
 
       - name: List built Docker images
         run: |
@@ -44,18 +44,18 @@ jobs:
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          docker tag frontend:latest registry.heroku.com/$HEROKU_APP_NAME/web
-          docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          docker tag frontend:latest registry.heroku.com/$HEROKU_APP_NAME/frontend
+          docker push registry.heroku.com/$HEROKU_APP_NAME/frontend
 
       - name: Tag and push backend image
         env:
          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          docker tag backend:latest registry.heroku.com/$HEROKU_APP_NAME/web
-          docker push registry.heroku.com/$HEROKU_APP_NAME/web
+          docker tag backend:latest registry.heroku.com/$HEROKU_APP_NAME/backend
+          docker push registry.heroku.com/$HEROKU_APP_NAME/backend
 
       - name: Release on Heroku
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          heroku container:release web --app $HEROKU_APP_NAME
+          heroku container:release frontend backend --app $HEROKU_APP_NAME
