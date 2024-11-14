@@ -1,41 +1,45 @@
 # syntax=docker/dockerfile:1.4
 
-# Create image based on the official Node image from dockerhub
+# 開発環境用のイメージ作成
 FROM node:lts-buster AS development
 
-# Create app directory
+# 作業ディレクトリの設定
 WORKDIR /usr/src/app
 
-# Copy dependency definitions
+# パッケージファイルをコピーして依存関係をインストール
 COPY package.json /usr/src/app
 COPY package-lock.json /usr/src/app
-
-# Install dependecies
-#RUN npm set progress=false \
-#    && npm config set depth 0 \
-#    && npm i install
 RUN npm ci
 
-# Get all the code needed to run the app
+# ソースコード全体をコピー
 COPY . /usr/src/app
 
-# Expose the port the app runs in
+# 開発用ポートの公開
 EXPOSE 3000
 
-# Serve the app
+# 開発用コマンド
 CMD ["npm", "start"]
 
-FROM development as dev-envs
-RUN <<EOF
-apt-get update
-apt-get install -y --no-install-recommends git
-EOF
+# 本番環境用イメージ
+FROM node:lts-buster AS production
 
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-CMD [ "npm", "start" ]
+# 作業ディレクトリの設定
+WORKDIR /usr/src/app
+
+# 依存関係をインストール
+COPY package.json /usr/src/app
+COPY package-lock.json /usr/src/app
+RUN npm ci --only=production
+
+# ソースコード全体をコピーし、ビルド
+COPY . /usr/src/app
+RUN npm run build
+
+# 本番用に serve をインストールして、静的ファイルを配信
+RUN npm install -g serve
+
+# 必要なポートを公開（Heroku用）
+EXPOSE 5000
+
+# 静的ファイルを配信するコマンドを設定
+CMD ["serve", "-s", "build", "-l", "5000"]
