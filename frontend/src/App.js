@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import apiClient from './api/client';
 import "./App.scss";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
@@ -14,7 +14,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    axios
+    apiClient
       .get("/api/todos")
       .then((response) => {
         this.setState({
@@ -25,7 +25,7 @@ export default class App extends React.Component {
   }
 
   handleAddTodo = (value) => {
-    axios
+    apiClient
       .post("/api/todos", { text: value })
       .then(() => {
         this.setState({
