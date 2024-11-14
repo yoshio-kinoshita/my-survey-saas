@@ -58,5 +58,4 @@ jobs:
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
         run: |
-          heroku container:release web --app $HEROKU_APP_NAME-frontend
-          heroku container:release web --app $HEROKU_APP_NAME-backend
+          heroku container:release web --app $HEROKU_APP_NAME
