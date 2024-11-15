@@ -48,8 +48,11 @@ jobs:
       - name: Set Heroku stack to container
         env:
           HEROKU_FRONTEND_APP_NAME: ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
+          HEROKU_BACKEND_APP_NAME: ${{ secrets.HEROKU_BACKEND_APP_NAME }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku stack:set container --app $HEROKU_FRONTEND_APP_NAME
+        run: |
+          heroku stack:set container --app $HEROKU_FRONTEND_APP_NAME
+          heroku stack:set container --app $HEROKU_BACKEND_APP_NAME
 
       - name: Release frontend on Heroku
         env:
