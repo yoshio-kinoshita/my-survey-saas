@@ -11,7 +11,7 @@ RUN npm ci
 
 COPY . /usr/src/app
 
-EXPOSE 5000
+EXPOSE 5001
 
 CMD [ "npm", "run", "dev" ]
 

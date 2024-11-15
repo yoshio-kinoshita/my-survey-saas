@@ -34,10 +34,10 @@ services:
       - express-mongo
       - react-express
     expose: 
-      - 5000
+      - 5001
       - 9229 # for debugging
     ports:
-      - 5000:5000
+      - 5001:5000
       - 9229:9229 # for debugging
     environment:
       - NODE_ENV=production
