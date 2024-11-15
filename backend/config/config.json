@@ -8,7 +8,7 @@
     "MONGODB_URI": "mongodb+srv://yoshiokinoshita:bbe5SGm1b9qq0cPh@survey-cluster.rs19e.mongodb.net/?retryWrites=true&w=majority&appName=survey-cluster"
   },
   "production":{
-    "PORT": 3000,
+    "PORT": 5000,
     "MONGODB_URI": "mongodb+srv://yoshiokinoshita:bbe5SGm1b9qq0cPh@survey-cluster.rs19e.mongodb.net/?retryWrites=true&w=majority&appName=survey-cluster"
   }
 }
