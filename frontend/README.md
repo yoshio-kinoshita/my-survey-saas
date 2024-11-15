@@ -25,3 +25,10 @@ CMD ["npm", "start"]
 ##### Explanation of frontend(ReactJS) `DockerFile`
 
 Frontend `DockerFile` is almost the same as Backend `DockerFile`.
+
+### herokuへのデプロイ
+
+エラーが出るので以下の環境変数をセット
+
+* heroku config:set HOST=0.0.0.0 --app survey-saas-frontend
+* heroku config:set DANGEROUSLY_DISABLE_HOST_CHECK=true --app survey-saas-frontend
