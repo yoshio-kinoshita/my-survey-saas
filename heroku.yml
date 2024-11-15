@@ -1,2 +1,0 @@
-web: sh start_web.sh
-backend: sh start_backend.sh
