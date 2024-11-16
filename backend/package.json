@@ -1,7 +1,7 @@
 {
-  "name": "docker_node_mongo_starter",
+  "name": "survey_saas_backend",
   "version": "1.0.0",
-  "description": "docker starter with node js and mongodb services",
+  "description": "Survey SaaS backend",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -9,7 +9,7 @@
     "lint": "prettier --check {**/,}*.js",
     "dev": "nodemon server.js"
   },
-  "author": "Syed Afzal",
+  "author": "yoshio kinoshita",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
