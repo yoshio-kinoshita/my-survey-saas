@@ -31,7 +31,7 @@ jobs:
       - name: Build and push Docker images with compose
         run: |
           # docker-composeでビルド
-          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml build --env-file .env.production
 
       - name: List built Docker images
         run: |

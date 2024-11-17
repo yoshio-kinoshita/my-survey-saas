@@ -2,10 +2,9 @@ services:
   frontend:
     build:
       context: frontend
-      target: development
     image: frontend:latest
     ports:
-      - 3000:3000
+      - "${FRONTEND_PORT}:3000"
     stdin_open: true
     volumes:
       - ./frontend:/usr/src/app
@@ -15,12 +14,13 @@ services:
       - react-express
     depends_on:
       - backend
+    environment:
+      - "NODE_ENV=${NODE_ENV}"
 
   backend:
     restart: always
     build:
       context: backend
-      target: development
     image: backend:latest
     volumes:
       - ./backend:/usr/src/app
@@ -31,13 +31,13 @@ services:
       - express-mongo
       - react-express
     expose: 
-      - 5001
+      - 5000
       - 9229 # for debugging
     ports:
-      - 5001:5000
+      - "${BACKEND_PORT}:5000"
       - 9229:9229 # for debugging
     environment:
-      - NODE_ENV=production
+      - "MONGODB_URI=${MONGODB_URI}"
 
   mongo:
     restart: always
@@ -46,8 +46,8 @@ services:
       - mongo_data:/data/db
     networks:
       - express-mongo
-    expose:
-      - 27017
+    ports:
+      - "27017:27017"
 networks:
   react-express:
   express-mongo:
